@@ -31,3 +31,9 @@ datetime_format = [%Y-%m-%d %H:%M:%S]
 log_group_name = <%= node[:opsworks][:stack][:name].gsub(' ', '_') %>
 file = <%= node[:cwlogs][:logfile] %>
 log_stream_name = <%= node[:opsworks][:instance][:hostname] %>
+
+[<%= node[:opsworks][:stack][:name] %>- rails]
+datetime_format = [%Y-%m-%dT%H:%M:%S.%6N
+log_group_name = <%= node[:opsworks][:stack][:name].gsub(' ', '_') %>
+file = <%= node[:cwlogs][:rails_log_path] %>
+log_stream_name = <%= node[:opsworks][:instance][:hostname] %>-Rails
