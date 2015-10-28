@@ -84,3 +84,4 @@ default['redisio']['default_settings'] = {
 # The default for this is set inside of the "install" recipe. This is due to the way deep merge handles arrays
 default['redisio']['servers'] = nil
 
+default[:cwlogs][:logfile] = '/var/log/aws/opsworks/opsworks-agent.log'

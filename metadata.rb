@@ -15,3 +15,5 @@ recipe "redisio::uninstall", "This recipe is used to uninstall the redis binarie
 recipe "redisio::enable", "This recipe is used to start the redis instances and enable them in the default run levels"
 recipe "redisio::disable", "this recipe is used to stop the redis instances and disable them in the default run levels"
 recipe "redisio::redis_gem", "this recipe will install the redis ruby gem into the system ruby"
+recipe "redisio::cwlogs_install", "this recipe will install cloudwatch logs"
+recipe "redisio::cwlogs_config", "this recipe will configure cloudwatch logs"
