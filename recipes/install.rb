@@ -23,7 +23,7 @@ location = "#{redis['mirror']}/#{redis['base_name']}#{redis['version']}.#{redis[
 
 redis_instances = redis['servers']
 if redis_instances.nil?
-  redis_instances = [{'port' => '6379'}]
+  redis_instances = [{'name' => 'redis', 'port' => '6379'}]
 end
 
 redisio_install "redis-servers" do
@@ -41,27 +41,25 @@ redis_instances.each do |current_server|
   job_control = current_server['job_control'] || redis['default_settings']['job_control'] 
 
   if job_control == 'initd'
-  	service "redis#{server_name}" do
+    service "redis#{server_name}" do
       start_command "/etc/init.d/redis#{server_name} start"
       stop_command "/etc/init.d/redis#{server_name} stop"
       status_command "pgrep -lf 'redis.*#{server_name}' | grep -v 'sh'"
       restart_command "/etc/init.d/redis#{server_name} stop && /etc/init.d/redis#{server_name} start"
       supports :start => true, :stop => true, :restart => true, :status => false
-  	end
+    end
   elsif job_control == 'upstart'
-  	service "redis#{server_name}" do
-	  provider Chef::Provider::Service::Upstart
+    service "redis#{server_name}" do
+    provider Chef::Provider::Service::Upstart
       start_command "start redis#{server_name}"
       stop_command "stop redis#{server_name}"
       status_command "pgrep -lf 'redis.*#{server_name}' | grep -v 'sh'"
       restart_command "restart redis#{server_name}"
       supports :start => true, :stop => true, :restart => true, :status => false
-  	end
+    end
   else
     Chef::Log.error("Unknown job control type, no service resource created!")
   end
-
 end
 
-node.set['redisio']['servers'] = redis_instances 
-
+node.set['redisio']['servers'] = redis_instances
