@@ -20,11 +20,6 @@
 
 redis = node['redisio']
 
-redis_instances = redis['servers']
-if redis_instances.nil?
-  redis_instances = [{'port' => '6379'}]
-end
-
 redis_instances.each do |current_server|
   server_name = current_server["name"] || current_server["port"]
   resource = resources("service[redis#{server_name}]")
