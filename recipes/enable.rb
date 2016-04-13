@@ -18,14 +18,3 @@
 # limitations under the License.
 #
 
-redis = node['redisio']
-
-redis['servers'].each do |current_server|
-  server_name = current_server["name"] || current_server["port"]
-  Chef::Log.info("Enabling #{server_name}")
-
-  service "redis#{server_name}" do
-    action :start
-    action :enable
-  end
-end
