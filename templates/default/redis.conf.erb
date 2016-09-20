@@ -54,8 +54,7 @@ loglevel <%=@loglevel%>
 # Redis to log on the standard output. Note that if you use standard
 # output for logging but daemonize, logs will be sent to /dev/null
 #
-logfile stdout
-#<%= "logfile #{@logfile}" unless @logfile.nil? %>
+<%= "logfile #{@logfile}" unless @logfile.nil? %>
 
 # To enable logging to the system logger, just set 'syslog-enabled' to yes,
 # and optionally update the other syslog parameters to suit your needs.
