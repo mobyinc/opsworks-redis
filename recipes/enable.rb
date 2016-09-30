@@ -20,6 +20,7 @@
 
 redis = node['redisio']
 
+Chef::Log.info("Running enable...")
 execute 'reload-systemd' do
   command '/usr/bin/systemctl daemon-reload'
   only_if { node['redisio']['job_control'] == 'systemd' }
@@ -28,9 +29,10 @@ end
 
 servers = redis['servers'] || [{'name' => 'redis', 'port' => '6379'}]
 
-Chef::Log.debug("Enabling servers: #{servers}")
+Chef::Log.info("Enabling servers: #{servers}")
 
 servers.each do |current_server|
+	Chef::Log.info("Starting: #{current_server}")
   server_name = current_server['name'] || current_server['port']
   resource_name = if node['redisio']['job_control'] == 'systemd'
                     "service[redis@#{server_name}]"
@@ -40,7 +42,6 @@ servers.each do |current_server|
   resource = resources(resource_name)
   resource.action Array(resource.action)
   resource.action << :start
-Chef::Log.debug("Starting: #{current_server}")
   if node['redisio']['job_control'] != 'systemd'
     resource.action << :enable
   else
