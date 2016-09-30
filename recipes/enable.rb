@@ -18,6 +18,7 @@
 # limitations under the License.
 #
 
+include_recipe 'redisio::install'
 redis = node['redisio']
 
 Chef::Log.info("Running enable...")
