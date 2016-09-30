@@ -28,6 +28,8 @@ end
 
 servers = redis['servers'] || [{'name' => 'redis', 'port' => '6379'}]
 
+Chef::Log.debug("Enabling servers: #{servers}")
+
 servers.each do |current_server|
   server_name = current_server['name'] || current_server['port']
   resource_name = if node['redisio']['job_control'] == 'systemd'
@@ -38,6 +40,7 @@ servers.each do |current_server|
   resource = resources(resource_name)
   resource.action Array(resource.action)
   resource.action << :start
+Chef::Log.debug("Starting: #{current_server}")
   if node['redisio']['job_control'] != 'systemd'
     resource.action << :enable
   else
